@@ -15,3 +15,22 @@ class user(models.Model):
     
     
     
+class Tarjeta(models.Model):
+    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    numero = models.BigIntegerField()  # Usualmente las tarjetas tienen 16 dígitos
+    cvv = models.IntegerField()      # Generalmente el CVV es de 3 dígitos
+    fecha_ano = models.PositiveIntegerField() # Año de expiración
+    fecha_mes = models.PositiveIntegerField() # Mes de expiración
+    apodo=models.CharField(max_length=20, null=True, blank=True)
+
+
+class mv(models.Model):
+    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    destino=models.CharField(max_length=100)
+    tarjeta=models.CharField(max_length=20)
+    cantidad = models.BigIntegerField() 
+    fecha=models.DateField()
+    tipo=models.TextField(max_length=20)
+    estado=models.TextField(max_length=20)
+
+    

@@ -30,10 +30,51 @@ export function Registro() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Validaciones y envío del formulario
-    console.log('Form submitted:', formData);
+    console.log()
+    if (formData.password !== formData.rpassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    const { rpassword, ...dataToSend } = formData;
+    dataToSend.number = parseInt(dataToSend.number, 10) || 0;
+    dataToSend.postalCode = parseInt(dataToSend.postalCode, 10) || 0;
+
+    const formattedData = {
+      nombre: dataToSend.name,
+      apellidos: dataToSend.lname,
+      correo: dataToSend.email,
+      contraseña: dataToSend.password,
+      telefono: parseInt(dataToSend.number, 10) || 0, // Convertir a entero
+      pais: dataToSend.country,
+      departamento: dataToSend.department,
+      ciudad: dataToSend.city,
+      codp: dataToSend.postalCode,
+    };
+
+    console.log(formattedData)
+
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formattedData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error en la solicitud: ' + response.statusText);
+      }
+
+      const result = await response.json();
+      console.log('Respuesta de la API:', result);
+      // Puedes manejar la respuesta de la API aquí
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
 
@@ -138,9 +179,10 @@ export function Registro() {
         value={formData.country}
         onChange={handleSelectChange}
       >
-            <option>Banana</option>
-  <option selected>Cherry</option>
-  <option>Lemon</option>
+            <option value="">Selecciona un país</option>
+            <option value="USA">Estados Unidos</option>
+            <option value="CAN">Canadá</option>
+            <option value="MEX">México</option>
             </select>
             <br />
             <br />

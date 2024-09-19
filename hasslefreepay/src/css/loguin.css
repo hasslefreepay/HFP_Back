@@ -145,13 +145,15 @@
     text-align: center;
   }
   
-  .a2 {
+  .ba {
     text-decoration: none;
     display: flex;
     align-items: center;
+    background-color: #f40c0c00;
+    border: none;
     
   }
-  .a2:hover{
+  .ba:hover{
     animation:scale 1s ease-out;
   }
   
